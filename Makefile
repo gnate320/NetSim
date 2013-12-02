@@ -13,3 +13,6 @@ all: $(OBJS)
 
 clean:
 	rm -v manager *.o *.out
+
+cleanlogs:
+	rm -v *.out

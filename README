@@ -1,0 +1,39 @@
+Nate Gillard
+Project 3
+CS 457
+
+Current State of Project:
+	Incomplete:
+
+	1.  Routers have no Link State algorithm implemented.
+	2.  Routers have no packets routing between nodes.
+
+	Complete:
+
+	1. Manager creates TCP port for accepting connections.
+	2. Manager forks router processes.
+	3. Manager accepts connection form forked router processes.
+	4. Manager Send Each router an ID and Link information.
+	5. Manager sends commands to each router to route packes.
+	6. Manager sends commands to tear down the network after all packets have been routed.
+	7. Routers communicate with the manager.
+	8. Manager outputs to file manager.out.
+	9. Routers output to file routerN.out.  
+
+
+Details about implementation.
+
+The manager keeps a table to track the status of routers and thier file descriptors.  The table has N+1 rows (one for each node in the network plus one for the incoming connection TCP socket file descriptor) and 4 columns.  The first column of the table holds a node's network ID (or -1 for the incoming connection socket), the second column is the node's TCP socket file descriptor, the third column is the read/write status of the node, this tell the manager whether to expect a confirmation from the node or to send a message to the node, and the last column is the node's status.  
+There are 6 possible states a router may be in.
+	1. just spawned
+	2. identified
+	3. calculating LS
+	4. ready for routing
+	5. done
+	6. close
+Each time a router sends a confirmation to the manager the router is moved to the next state.
+When all Routers are in ready for routing state the manager will begin commanding nodes to route packet.
+When all packets have been route the manager sends termination signal to each router process.
+And when finally all routers have reached closed stated the manager ends.
+
+Although routers do not currently do a LS algorithm and router packets to each other the programs runs from beginning to end.  
